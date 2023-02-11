@@ -188,11 +188,11 @@ function render(time) {
   };
 
   const aspect = gl.canvas.width / gl.canvas.height;
-  const worldSize = 8.0; // width in world space of canvas
+  const worldSize = 7.0; // width in world space of canvas
   const worldScale = 1.0 / worldSize;
   uniforms.u_mvp = m4.scaling( [ worldScale/aspect,worldScale]);
 
-  gl.clearColor(0, 0, 0.1, 0.1);
+  gl.clearColor(0, 0, 0.0, 0.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   gl.useProgram(programInfo.program);
@@ -201,19 +201,22 @@ function render(time) {
   //twgl.drawBufferInfo(gl, bufferInfo);
 
   // let gx = -8 + (Math.sin( time * 0.001) * 3);
-  let gx = -16.0;
-  let gy = Math.sin( time * 0.0001) * 2 - 1;  
+  let gx = -15.0;
+  let gy = Math.sin( time * 0.0001) * 2 -1.5;  
   
   //drawGlyph( gx, gy, glyphs[69], uniforms ); // H  
 
   const fontsize = 8.0;
+  
+  // H/M
   let blend = (Math.sin( time * 0.001) + 1.0) / 2.0;
   drawMorphGlyph( gx, gy, glyphs[72], blend,
-                  gx, gy, glyphs[77], 1.0 - blend,
+                  gx, gy, glyphs[66], 1.0 - blend,
                   fontsize, uniforms );  
   gx += fontsize  * glyphs[72].advance * 0.8;
   
-  const str = "ELLO\uD83D\uDE00\u0278";
+  //const str = "ELLO\uD83D\uDE00\u0278";
+  const str = "ELL";
   const iterator = str[Symbol.iterator]();
   let theChar = iterator.next();
 
@@ -235,7 +238,10 @@ function render(time) {
     theChar = iterator.next();       
   }
   
-  
+  // OW  
+  drawMorphGlyph( gx, gy, glyphs[79], 0,
+                  gx+ blend*fontsize * 0.62, gy, glyphs[87], Math.pow(1.0-blend, 3),
+                  fontsize, uniforms );  
 
 
   requestAnimationFrame(render);
